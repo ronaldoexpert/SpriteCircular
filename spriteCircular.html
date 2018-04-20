@@ -2,23 +2,27 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Sprite Circular</title>
+    <title>Exemplo 04</title>
     <script src="spriteCircular.js"></script>
   </head>
   <body>
-    <h1>Exemplo 04</h1>
+    <h1>Sprite Circular</h1>
     <canvas width="480" height="320">
     Seu browser não suporta canvas!</canvas>
     <script>
     var tela = document.getElementsByTagName("canvas")[0];
     var ctx = tela.getContext("2d");
-    var G = 0;
 
     var dt = anterior = 0;
     var sprites = [];
+
     var pc = new Sprite();
     sprites.push(pc);
 
+    var enemy = new Sprite();
+    enemy.x = 200;
+    enemy.y = 130;
+    sprites.push(enemy);
 
     function limparTela() {
       ctx.fillStyle = "black";
@@ -27,28 +31,24 @@
 
     function passo(t) {
       dt = (t - anterior)/1000;
+
       for (var i = 0; i < sprites.length; i++) {
-        if(i>0) {
-          //sprites[i].perseguir(pc);
+        if(pc.colidiuCom(sprites[1])){
+          sprites[1].cor = "red";
+        } else {
+          sprites[1].cor = "blue";
         }
+
         sprites[i].mover(dt);
         sprites[i].impoeLimites(0,0, tela.width, tela.height);
-        if(i > 0 && pc.imunidade <=0 && pc.colidiuCom(sprites[i])){
-          pc.cor = 'red';
-          pc.x = 0;
-          pc.y = 0;
-          pc.vx = 0;
-          pc.vy = 0;
-          pc.imunidade = 3;
-        } else {
-          pc.cor = 'grey';
-        }
       }
 
       limparTela();
+
       for (var i = 0; i < sprites.length; i++) {
         sprites[i].desenhar(ctx);
       }
+
       anterior = t;
       requestAnimationFrame(passo);
     }
@@ -58,17 +58,17 @@
     addEventListener("keydown", function(e){
       switch (e.keyCode) {
         case 37:
-          pc.ax = -100;
+          pc.vx = -150;
           break;
         case 39:
-          pc.ax = +100;
+          pc.vx = 150;
           break;
         case 38:
-          pc.ay = -200;
+          pc.vy = -150;
           break;
         case 40:
-          pc.ay = +100;
-          break;m
+          pc.vy = 150;
+          break;
         default:
       }
     });
@@ -76,11 +76,11 @@
       switch (e.keyCode) {
         case 37:
         case 39:
-          pc.ax = 0;
+          pc.vx = 0;
           break;
         case 38:
         case 40:
-          pc.ay = 0;
+          pc.vy = 0;
           break;
         default:
       }
