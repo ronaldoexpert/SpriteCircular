@@ -34,7 +34,12 @@
 
       for (var i = 0; i < sprites.length; i++) {
         if(pc.colidiuCom(sprites[1])){
-          sprites[1].cor = "red";
+          //sprites[1].cor = "red";
+          sprites[i].vy = -pc.vy;
+          sprites[i].vx = -pc.vx;
+          sprites[i].mover(dt);
+          pc.vx = -30;
+          pc.vy = -21;
         } else {
           sprites[1].cor = "blue";
         }

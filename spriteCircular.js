@@ -57,7 +57,7 @@ Sprite.prototype.impoeLimites = function(x, y, w, h){
 
 Sprite.prototype.colidiuCom = function (alvo) {
   var dist = Math.pow(Math.pow(alvo.x - this.x,2)+Math.pow(alvo.y - this.y,2),0.5);
-  if (dist < this.raio + alvo.raio){
+  if (dist < this.raio + 10 + alvo.raio){
     return true;
   }else {
     return false;
